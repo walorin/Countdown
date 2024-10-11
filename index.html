@@ -19,17 +19,34 @@
 </head>
 <body>
 
-  <h1>É sexta carai:</h1>
+  <h1>Contagem Regressiva para Sexta-feira às 16h</h1>
   <div class="contador" id="contador"></div>
 
   <script>
-    // Data para a qual você quer contar regressivamente
-    const dataFinal = new Date("Oct 11, 2024 15:59:59").getTime();
+    function calcularProximaSexta() {
+      const agora = new Date();
+      const diaAtual = agora.getDay();
+      const proximaSexta = new Date(agora);
+      
+      // Verifica se hoje é sexta e se já passou das 16h
+      if (diaAtual === 5 && agora.getHours() >= 16) {
+        proximaSexta.setDate(agora.getDate() + 7); // Pula para a próxima semana
+      } else {
+        // Calcula quantos dias faltam para a próxima sexta-feira
+        const diasAteSexta = (5 - diaAtual + 7) % 7;
+        proximaSexta.setDate(agora.getDate() + diasAteSexta);
+      }
+      
+      // Define a hora para 16:00
+      proximaSexta.setHours(16, 0, 0, 0);
+
+      return proximaSexta.getTime();
+    }
 
     // Atualiza o contador a cada segundo
     const x = setInterval(function() {
       const agora = new Date().getTime();
-      const tempoRestante = dataFinal - agora;
+      const tempoRestante = calcularProximaSexta() - agora;
 
       // Cálculos para dias, horas, minutos e segundos
       const dias = Math.floor(tempoRestante / (1000 * 60 * 60 * 24));
@@ -43,10 +60,11 @@
       // Quando a contagem terminar
       if (tempoRestante < 0) {
         clearInterval(x);
-        document.getElementById("contador").innerHTML = "Promoção Encerrada!";
+        document.getElementById("contador").innerHTML = "É sexta carai!";
       }
     }, 1000);
   </script>
 
 </body>
 </html>
+
