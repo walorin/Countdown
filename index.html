@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contador Regressivo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    .contador {
+      font-size: 40px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Promoção termina em:</h1>
+  <div class="contador" id="contador"></div>
+
+  <script>
+    // Data para a qual você quer contar regressivamente
+    const dataFinal = new Date("Oct 11, 2024 15:59:59").getTime();
+
+    // Atualiza o contador a cada segundo
+    const x = setInterval(function() {
+      const agora = new Date().getTime();
+      const tempoRestante = dataFinal - agora;
+
+      // Cálculos para dias, horas, minutos e segundos
+      const dias = Math.floor(tempoRestante / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((tempoRestante % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutos = Math.floor((tempoRestante % (1000 * 60 * 60)) / (1000 * 60));
+      const segundos = Math.floor((tempoRestante % (1000 * 60)) / 1000);
+
+      // Exibe o resultado no elemento com id "contador"
+      document.getElementById("contador").innerHTML = dias + "d " + horas + "h " + minutos + "m " + segundos + "s ";
+
+      // Quando a contagem terminar
+      if (tempoRestante < 0) {
+        clearInterval(x);
+        document.getElementById("contador").innerHTML = "Promoção Encerrada!";
+      }
+    }, 1000);
+  </script>
+
+</body>
+</html>
